@@ -8,23 +8,23 @@ import pl.exchangeapp.enums.DataFormat;
 
 import java.io.IOException;
 
-public class Client {
-    private static Client client;
+public class ClientHttp {
+    private static ClientHttp clientHttp;
     private final OkHttpClient okHttpClient = new OkHttpClient();
 
-    private Client() {
+    private ClientHttp() {
     }
 
-    public static Client getInstance() {
-        if (client == null) {
-            synchronized (Client.class) {
-                if (client == null) {
-                    client = new Client();
+    public static ClientHttp getInstance() {
+        if (clientHttp == null) {
+            synchronized (ClientHttp.class) {
+                if (clientHttp == null) {
+                    clientHttp = new ClientHttp();
                 }
             }
         }
 
-        return client;
+        return clientHttp;
     }
 
     public String executeRequest(Currency currency, DataFormat dataFormat) throws IOException {

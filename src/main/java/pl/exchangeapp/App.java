@@ -1,41 +1,35 @@
 
 package pl.exchangeapp;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import pl.exchangeapp.dao.CustomerDAO;
+import pl.exchangeapp.conection.DataBaseConnection;
 import pl.exchangeapp.dao.CustomerRepository;
-import pl.exchangeapp.entities.Account;
-import pl.exchangeapp.entities.Address;
 import pl.exchangeapp.entities.Customer;
-import pl.exchangeapp.entities.CustomerTransaction;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 public class App {
-    public static void main(String[] args) throws IOException {
-       SessionFactory sessionFactory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Account.class)
-                .addAnnotatedClass(Customer.class)
-                .addAnnotatedClass(CustomerTransaction.class)
-                .addAnnotatedClass(Address.class)
-                .buildSessionFactory();
 
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
 
-        Customer customer1 = new Customer()
-                .setFirstName("Kamil")
-                .setLastName("Kowalski")
+        DataBaseConnection dataBaseConnection = new DataBaseConnection();
+        CustomerRepository customerRepository = new CustomerRepository(dataBaseConnection);
+
+        Customer customer = new Customer()
+                .setFirstName("Wacław")
+                .setLastName("Gajdosz")
                 .setPassword("12345")
                 .build();
+        customerRepository.createCustomer(customer);
 
+        customer = new Customer()
+                .setFirstName("Barbara")
+                .setLastName("Grzyb")
+                .setPassword("qwerty")
+                .build();
+        customerRepository.createCustomer(customer);
 
-
-        CustomerDAO customerDAO = new  CustomerRepository(sessionFactory);
-        customerDAO.createCustomer(customer1);
-        System.out.println(customer1);
 
 
 
