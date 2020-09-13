@@ -22,12 +22,19 @@ public class Customer {
     @OneToOne
     private Address address;
     @ManyToMany
+    @Column(name = "accountNumber_id")
     private List<Account> accounts;
 
-    public Customer(String firstName, String lastName, String password) {
+    public Customer(String firstName,
+                    String lastName,
+                    String password,
+                    List<Account> accounts,
+                    Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+        this.accounts = accounts;
+        this.address = address;
     }
 
     public String getFirstName() {
@@ -57,7 +64,21 @@ public class Customer {
         return this;
     }
 
+    public Customer setAddress(Address address) {
+        this.address = address;
+        return this;
+    }
+
+    public Customer setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+        return this;
+    }
+
     public Customer build() {
-        return new Customer(firstName, lastName, password);
+        return new Customer(firstName,
+                lastName,
+                password,
+                accounts,
+                address);
     }
 }
