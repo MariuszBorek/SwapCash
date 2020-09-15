@@ -1,12 +1,12 @@
 package pl.exchangeapp.dao;
 
-import pl.exchangeapp.conection.DataBaseConnection;
+import pl.exchangeapp.conection.DatabaseConnection;
 import pl.exchangeapp.entities.Address;
 
 public class AddressRepository implements AddressDAO {
-    private DataBaseConnection dataBaseConnection;
+    private DatabaseConnection dataBaseConnection;
 
-    public AddressRepository(DataBaseConnection dataBaseConnection) {
+    public AddressRepository(DatabaseConnection dataBaseConnection) {
         this.dataBaseConnection = dataBaseConnection;
     }
 
@@ -14,4 +14,10 @@ public class AddressRepository implements AddressDAO {
     public void createAddress(Address address) {
         dataBaseConnection.myQueryConsumer(session -> session.persist(address));
     }
+
+    @Override
+    public void deleteAddress(Address address) {
+        dataBaseConnection.myQueryConsumer(session -> session.delete(address));
+    }
+
 }

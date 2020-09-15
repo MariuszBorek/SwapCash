@@ -1,22 +1,15 @@
 package pl.exchangeapp.entities;
 
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 
 @Entity
-@NoArgsConstructor
-@EqualsAndHashCode(exclude = "customer")
 public class Address {
     @Id
-    @GeneratedValue()
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String street;
     private String number;
     private String postalCode;
@@ -34,38 +27,25 @@ public class Address {
         this.city = city;
     }
 
-    public String getStreet() {
-        return street;
+    public Address() {
     }
 
-    public Address setStreet(String street) {
+    public Address withStreet(String street) {
         this.street = street;
         return this;
     }
 
-    public String getNumber() {
-        return number;
-    }
-
-    public Address setNumber(String number) {
+    public Address withNumber(String number) {
         this.number = number;
         return this;
     }
 
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public Address setPostalCode(String postalCode) {
+    public Address withPostalCode(String postalCode) {
         this.postalCode = postalCode;
         return this;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public Address setCity(String city) {
+    public Address withCity(String city) {
         this.city = city;
         return this;
     }
@@ -75,5 +55,80 @@ public class Address {
                 number,
                 postalCode,
                 city);
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "street='" + street + '\'' +
+                ", number='" + number + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return id == address.id &&
+                Objects.equals(street, address.street) &&
+                Objects.equals(number, address.number) &&
+                Objects.equals(postalCode, address.postalCode) &&
+                Objects.equals(city, address.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, street, number, postalCode, city);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

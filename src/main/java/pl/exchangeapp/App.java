@@ -1,87 +1,151 @@
 
 package pl.exchangeapp;
 
-import pl.exchangeapp.conection.DataBaseConnection;
+import pl.exchangeapp.conection.DatabaseConnection;
 import pl.exchangeapp.dao.*;
 import pl.exchangeapp.entities.Account;
 import pl.exchangeapp.entities.Address;
 import pl.exchangeapp.entities.Customer;
+import pl.exchangeapp.entities.PaymentTransaction;
+import pl.exchangeapp.enums.Currency;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Scanner;
 
 public class App {
 
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
+        // create connection with Database
+        DatabaseConnection databaseConnection = new DatabaseConnection();
 
-        DataBaseConnection dataBaseConnection = new DataBaseConnection();
+        // create instances of repositories
+        AddressDAO addressDAO = new AddressRepository(databaseConnection);
+        CustomerDAO customerDAO = new CustomerRepository(databaseConnection);
+        AccountDAO accountDAO = new AccountRepository(databaseConnection);
+        CustomerTransactionDAO customerTransactionDAO = new CustomerTransactionRepository(databaseConnection);
 
-        AddressDAO addressDAO = new AddressRepository(dataBaseConnection);
-        CustomerDAO customerDAO = new CustomerRepository(dataBaseConnection);
-        AccountDAO accountDAO = new AccountRepository(dataBaseConnection);
 
-        List<Address> addresses = new ArrayList<>();
-        List<Account> accounts = new ArrayList<>();
-        List<Customer> customers = new ArrayList<>();
+        // create objects
+//        List<Address> addresses = new ArrayList<>();
+//        List<Account> accounts = new ArrayList<>();
+//        List<Customer> customers = new ArrayList<>();
+//        List<CustomerTransaction> customerTransactions = new ArrayList<>();
 
-        addresses.add(new Address()
-                .setStreet("Błotna")
-                .setNumber("5b")
-                .setCity("Warszawa")
-                .setPostalCode("33-456")
-                .build());
+        // address objects
 
-        addresses.add(new Address()
-                .setStreet("Wojska Polskiego")
-                .setNumber("43")
-                .setCity("Kraków")
-                .setPostalCode("36-547")
-                .build());
+        Address address1 = new Address()
+                .withStreet("Błotna")
+                .withNumber("5b")
+                .withCity("Warszawa")
+                .withPostalCode("33-456")
+                .build();
 
-        // ---------------------------------------------------
+        Address address2 = new Address()
+                .withStreet("Wojska Polskiego")
+                .withNumber("43")
+                .withCity("Kraków")
+                .withPostalCode("36-547")
+                .build();
 
-        accounts.add(new Account()
-                .setAccountNumber(10000000000000L)
-                .setBalance(new BigDecimal(10000))
-                .build());
+        // account objects
 
-        accounts.add(new Account()
-                .setAccountNumber(20000000000000L)
-                .setBalance(new BigDecimal(20000))
-                .build());
+        Account account1 = new Account()
+                .withAccountNumber(10001L)
+                .withTypeOfAccount(Currency.PLN)
+                .withBalance(new BigDecimal(10_000))
+                .build();
 
-        // ---------------------------------------------------
+        Account account2 = new Account()
+                .withAccountNumber(10002L)
+                .withTypeOfAccount(Currency.EUR)
+                .withBalance(new BigDecimal(20_000))
+                .build();
 
-        customers.add(new Customer()
-                .setFirstName("Wacław")
-                .setLastName("Gajdosz")
-                .setPassword("12345")
-                .setAccounts(List.of(accounts.get(0)))
-                .setAddress(addresses.get(0))
-                .build());
+        // transaction objects
 
-        customers.add(new Customer()
-                .setFirstName("Barbara")
-                .setLastName("Grzyb")
-                .setPassword("qwerty")
-                .setAccounts(List.of(accounts.get(1)))
-                .setAddress(addresses.get(1))
-                .build());
+        PaymentTransaction transaction1 = new PaymentTransaction()
+                .withAccount(account1)
+                .withDate(LocalDate.now())
+                .withAmount(new BigDecimal(543))
+                .build();
 
-        // ---------------------------------------------------
+        PaymentTransaction transaction2 = new PaymentTransaction()
+                .withAccount(account2)
+                .withDate(LocalDate.of(2020, 5, 23))
+                .withAmount(new BigDecimal(234))
+                .build();
 
-        addressDAO.createAddress(addresses.get(0));
-        addressDAO.createAddress(addresses.get(1));
+        // customer objects
 
-        accountDAO.createAccount(accounts.get(0));
-        accountDAO.createAccount(accounts.get(1));
+        Customer customer1 = new Customer()
+                .withPhoneNumber(567_345_234)
+                .withFirstName("Wacław")
+                .withLastName("Kowalski")
+                .withPassword("12345")
+                .withAccounts(List.of(account1))
+                .withAddress(address1)
+                .build();
 
-        customerDAO.createCustomer(customers.get(0));
-        customerDAO.createCustomer(customers.get(1));
+        Customer customer2 = new Customer()
+                .withPhoneNumber(658_345_964)
+                .withFirstName("Justyna")
+                .withLastName("Nowak")
+                .withPassword("qwerty")
+                .withAccounts(List.of(account2))
+                .withAddress(address2)
+                .build();
+
+        // insert objects to database
+
+        addressDAO.createAddress(address1);
+        addressDAO.createAddress(address2);
+
+        accountDAO.createAccount(account1);
+        accountDAO.createAccount(account2);
+
+        customerTransactionDAO.createCustomerTransaction(transaction1);
+        customerTransactionDAO.createCustomerTransaction(transaction2);
+
+        customerDAO.createCustomer(customer1);
+        customerDAO.createCustomer(customer2);
+
+        // find customer by phone number
+        customerDAO.findByPhoneNumber(658_345_964);
+
+        // update objects
+//        customer2.withFirstName("Justyna CHANGED")
+//                .withLastName("Nowak CHANGED")
+//                .withPassword("qwerty CHANGED")
+//                .build();
+//        customerDAO.updateCustomer(customer2, 658_345_964);
+
+        // findByName
+//        customerDAO.findByName("Justyna");
+
+        // update without phoneNumber
+//        customer1.withFirstName("Wacław CHANGED")
+//                .build();
+//        customerDAO.updateCustomer(customer1);
+
+        // delete Customer by phone number
+//        customerDAO.deleteCustomerWithAllInfoAboutThem(658_345_964);
+
+        // delete Customer address
+//        addressDAO.deleteAddress(address2);
+
+        // transfer money
+        accountDAO.transferMoney(new BigDecimal(333), 658_345_964, 567_345_234);
+
+
+
+
+
+
+
+
+
 
 
         // CURRENCYAPI
@@ -109,7 +173,5 @@ public class App {
 //        for (Currency currency : Currency.values()) {
 //            System.out.print(currency.name() + "; ");
 //        }
-
-
     }
 }

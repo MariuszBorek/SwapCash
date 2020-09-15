@@ -1,84 +1,150 @@
 package pl.exchangeapp.entities;
 
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
 import javax.persistence.*;
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
 
 @Entity
-@NoArgsConstructor
-@EqualsAndHashCode(exclude = {"address", "accounts"})
-@ToString
 public class Customer {
     @Id
-    @GeneratedValue
-    private UUID id;
-    private String firstName;
-    private String lastName;
+    private int phoneNumber;
     private String password;
+    private String lastName;
+    private String firstName;
     @OneToOne
     private Address address;
     @ManyToMany
-    @Column(name = "accountNumber_id")
     private List<Account> accounts;
 
-    public Customer(String firstName,
-                    String lastName,
+    public Customer() {
+    }
+
+    public Customer(int phoneNumber,
                     String password,
-                    List<Account> accounts,
-                    Address address) {
+                    String firstName,
+                    String lastName,
+                    Address address,
+                    List<Account> accounts) {
+        this.phoneNumber = phoneNumber;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
         this.accounts = accounts;
         this.address = address;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public Customer withPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
     }
 
-    public Customer setFirstName(String firstName) {
+    public Customer withFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public Customer setLastName(String lastName) {
+    public Customer withLastName(String lastName) {
         this.lastName = lastName;
         return this;
+    }
+
+    public Customer withPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public Customer withAddress(Address address) {
+        this.address = address;
+        return this;
+    }
+
+    public Customer withAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+        return this;
+    }
+
+    public Customer build() {
+        return new Customer(phoneNumber,
+                password,
+                firstName,
+                lastName,
+                address,
+                accounts);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "phoneNumber=" + phoneNumber +
+                ", password='" + password + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", address=" + address +
+                ", accounts=" + accounts +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return phoneNumber == customer.phoneNumber &&
+                Objects.equals(password, customer.password) &&
+                Objects.equals(lastName, customer.lastName) &&
+                Objects.equals(firstName, customer.firstName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(phoneNumber, password, lastName, firstName);
+    }
+
+    public int getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public Customer setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
-        return this;
     }
 
-    public Customer setAddress(Address address) {
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
         this.address = address;
-        return this;
     }
 
-    public Customer setAccounts(List<Account> accounts) {
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
-        return this;
-    }
-
-    public Customer build() {
-        return new Customer(firstName,
-                lastName,
-                password,
-                accounts,
-                address);
     }
 }

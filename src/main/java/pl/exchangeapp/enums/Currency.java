@@ -1,6 +1,7 @@
 package pl.exchangeapp.enums;
 
 public enum Currency {
+    PLN,
     USD,
     AUD,
     CAD,

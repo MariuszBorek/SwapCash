@@ -7,20 +7,20 @@ import pl.exchangeapp.entities.Account;
 import pl.exchangeapp.entities.Address;
 import pl.exchangeapp.entities.Customer;
 import org.hibernate.cfg.Configuration;
-import pl.exchangeapp.entities.CustomerTransaction;
+import pl.exchangeapp.entities.PaymentTransaction;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class DataBaseConnection {
+public class DatabaseConnection {
     private SessionFactory sessionFactory;
 
-    public DataBaseConnection() {
+    public DatabaseConnection() {
         sessionFactory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Account.class)
                 .addAnnotatedClass(Customer.class)
-                .addAnnotatedClass(CustomerTransaction.class)
+                .addAnnotatedClass(PaymentTransaction.class)
                 .addAnnotatedClass(Address.class)
                 .buildSessionFactory();
     }
