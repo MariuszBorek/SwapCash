@@ -3,8 +3,11 @@ package pl.exchangeapp.dao;
 import pl.exchangeapp.conection.DatabaseConnection;
 import pl.exchangeapp.entities.Account;
 import pl.exchangeapp.entities.Customer;
+import pl.exchangeapp.entities.PaymentTransaction;
+import pl.exchangeapp.enums.TransactionType;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class AccountRepository implements AccountDAO {
     private DatabaseConnection dataBaseConnection;
@@ -29,8 +32,8 @@ public class AccountRepository implements AccountDAO {
                     .setParameter("phoneNumber", recipientPhoneNumber)
                     .getSingleResult();
 
-            System.out.println("Payer -->" + foundPayer);
-            System.out.println("Recipient -->" + foundRecipient);
+            System.out.println("Payer -->" + foundPayer.getFirstName());
+            System.out.println("Recipient -->" + foundRecipient.getFirstName());
 
             BigDecimal payerBalance = foundPayer.getAccounts().get(0).getBalance();
             BigDecimal recipientBalance = foundRecipient.getAccounts().get(0).getBalance();
@@ -42,10 +45,22 @@ public class AccountRepository implements AccountDAO {
             session.update(foundPayer);
             session.update(foundRecipient);
 
-            // TODO add transaction history
+            PaymentTransaction outgoingPayment = new PaymentTransaction()
+                    .withTransactionType(TransactionType.OUTGOING)
+                    .withAccount(foundPayer.getAccounts().get(0))
+                    .withAmount(amount)
+                    .withDate(LocalDate.now())
+                    .build();
 
+            PaymentTransaction incomingPayment = new PaymentTransaction()
+                    .withTransactionType(TransactionType.INCOMING)
+                    .withAccount(foundRecipient.getAccounts().get(0))
+                    .withAmount(amount)
+                    .withDate(LocalDate.now())
+                    .build();
 
-
+            session.persist(outgoingPayment);
+            session.persist(incomingPayment);
         });
     }
 }

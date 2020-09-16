@@ -6,15 +6,13 @@ import pl.exchangeapp.dao.*;
 import pl.exchangeapp.entities.Account;
 import pl.exchangeapp.entities.Address;
 import pl.exchangeapp.entities.Customer;
-import pl.exchangeapp.entities.PaymentTransaction;
 import pl.exchangeapp.enums.Currency;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
-public class App {
+public class Test {
 
     public static void main(String[] args) throws IOException {
         // create connection with Database
@@ -24,7 +22,7 @@ public class App {
         AddressDAO addressDAO = new AddressRepository(databaseConnection);
         CustomerDAO customerDAO = new CustomerRepository(databaseConnection);
         AccountDAO accountDAO = new AccountRepository(databaseConnection);
-        CustomerTransactionDAO customerTransactionDAO = new CustomerTransactionRepository(databaseConnection);
+        PaymentTransactionDAO paymentTransactionDAO = new PaymentTransactionRepository(databaseConnection);
 
 
         // create objects
@@ -65,17 +63,19 @@ public class App {
 
         // transaction objects
 
-        PaymentTransaction transaction1 = new PaymentTransaction()
-                .withAccount(account1)
-                .withDate(LocalDate.now())
-                .withAmount(new BigDecimal(543))
-                .build();
-
-        PaymentTransaction transaction2 = new PaymentTransaction()
-                .withAccount(account2)
-                .withDate(LocalDate.of(2020, 5, 23))
-                .withAmount(new BigDecimal(234))
-                .build();
+//        PaymentTransaction transaction1 = new PaymentTransaction()
+//                .withAccount(account1)
+//                .withTransactionType(TransactionType.INCOMING)
+//                .withDate(LocalDate.now())
+//                .withAmount(new BigDecimal(543))
+//                .build();
+//
+//        PaymentTransaction transaction2 = new PaymentTransaction()
+//                .withAccount(account2)
+//                .withTransactionType(TransactionType.OUTGOING)
+//                .withDate(LocalDate.of(2020, 5, 23))
+//                .withAmount(new BigDecimal(234))
+//                .build();
 
         // customer objects
 
@@ -105,8 +105,8 @@ public class App {
         accountDAO.createAccount(account1);
         accountDAO.createAccount(account2);
 
-        customerTransactionDAO.createCustomerTransaction(transaction1);
-        customerTransactionDAO.createCustomerTransaction(transaction2);
+//        paymentTransactionDAO.createCustomerTransaction(transaction1);
+//        paymentTransactionDAO.createCustomerTransaction(transaction2);
 
         customerDAO.createCustomer(customer1);
         customerDAO.createCustomer(customer2);
@@ -137,6 +137,9 @@ public class App {
 
         // transfer money
         accountDAO.transferMoney(new BigDecimal(333), 658_345_964, 567_345_234);
+        System.out.println("-------------------");
+
+        accountDAO.transferMoney(new BigDecimal(1_000), 567_345_234, 658_345_964);
 
 
 

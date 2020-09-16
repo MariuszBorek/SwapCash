@@ -1,10 +1,11 @@
 package pl.exchangeapp.entities;
 
+import pl.exchangeapp.enums.TransactionType;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Table(name = "Transaction")
@@ -12,7 +13,8 @@ public class PaymentTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private BigDecimal amount;
+    private BigDecimal transactionAmount;
+    private TransactionType transactionType;
     private LocalDate date;
     @ManyToOne
     private Account account;
@@ -20,14 +22,15 @@ public class PaymentTransaction {
     public PaymentTransaction() {
     }
 
-    public PaymentTransaction(BigDecimal amount, LocalDate date, Account account) {
-        this.amount = amount;
+    public PaymentTransaction(BigDecimal transactionAmount, TransactionType transactionType, LocalDate date, Account account) {
+        this.transactionAmount = transactionAmount;
+        this.transactionType = transactionType;
         this.date = date;
         this.account = account;
     }
 
     public PaymentTransaction withAmount(BigDecimal amount) {
-        this.amount = amount;
+        this.transactionAmount = amount;
         return this;
     }
 
@@ -41,15 +44,21 @@ public class PaymentTransaction {
         return this;
     }
 
+    public PaymentTransaction withTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
+        return this;
+    }
+
     public PaymentTransaction build() {
-        return new PaymentTransaction(amount, date, account);
+        return new PaymentTransaction(transactionAmount, transactionType, date, account);
     }
 
     @Override
     public String toString() {
         return "PaymentTransaction{" +
                 "id=" + id +
-                ", amount=" + amount +
+                ", amount=" + transactionAmount +
+                ", transactionType=" + transactionType +
                 ", date=" + date +
                 '}';
     }
@@ -60,13 +69,14 @@ public class PaymentTransaction {
         if (o == null || getClass() != o.getClass()) return false;
         PaymentTransaction that = (PaymentTransaction) o;
         return id == that.id &&
-                Objects.equals(amount, that.amount) &&
+                Objects.equals(transactionAmount, that.transactionAmount) &&
+                transactionType == that.transactionType &&
                 Objects.equals(date, that.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, amount, date);
+        return Objects.hash(id, transactionAmount, transactionType, date);
     }
 
     public int getId() {
@@ -77,12 +87,20 @@ public class PaymentTransaction {
         this.id = id;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
+    public BigDecimal getTransactionAmount() {
+        return transactionAmount;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+    public void setTransactionAmount(BigDecimal transactionAmount) {
+        this.transactionAmount = transactionAmount;
+    }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
     }
 
     public LocalDate getDate() {

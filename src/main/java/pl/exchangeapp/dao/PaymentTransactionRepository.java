@@ -3,10 +3,10 @@ package pl.exchangeapp.dao;
 import pl.exchangeapp.conection.DatabaseConnection;
 import pl.exchangeapp.entities.PaymentTransaction;
 
-public class CustomerTransactionRepository implements CustomerTransactionDAO {
+public class PaymentTransactionRepository implements PaymentTransactionDAO {
     private DatabaseConnection dataBaseConnection;
 
-    public CustomerTransactionRepository(DatabaseConnection dataBaseConnection) {
+    public PaymentTransactionRepository(DatabaseConnection dataBaseConnection) {
         this.dataBaseConnection = dataBaseConnection;
     }
 

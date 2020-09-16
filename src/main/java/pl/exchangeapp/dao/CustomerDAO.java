@@ -8,5 +8,5 @@ public interface CustomerDAO {
     void updateCustomer(Customer customer);
     void findByName(String firstName);
     void deleteCustomerWithAllInfoAboutThem(int phoneNumber);
-    void findByPhoneNumber(int phoneNumber);
+    Customer findByPhoneNumber(int phoneNumber);
 }

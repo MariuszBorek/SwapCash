@@ -6,5 +6,5 @@ import java.math.BigDecimal;
 
 public interface AccountDAO {
     void createAccount(Account account);
-    void transferMoney(BigDecimal amount, int payerPhoneNumber, int phoneNumber);
+    void transferMoney(BigDecimal amount, int payerPhoneNumber, int recipientPhoneNumber);
 }

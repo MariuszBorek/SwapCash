@@ -43,6 +43,7 @@ public class CustomerRepository implements CustomerDAO {
     public void deleteCustomerWithAllInfoAboutThem(int phoneNumber) {
         AddressRepository addressRepository = new AddressRepository(dataBaseConnection);
         dataBaseConnection.myQueryConsumer(session -> {
+
             Customer foundCustomer = session.find(Customer.class, phoneNumber);
             List<Account> accounts = foundCustomer.getAccounts();
             List<PaymentTransaction> paymentTransactions = accounts.get(0).getPaymentTransactions();
@@ -59,20 +60,12 @@ public class CustomerRepository implements CustomerDAO {
             for (Account account : accounts) {
                 session.delete(account);
             }
-
-//            for (PaymentTransaction paymentTransaction : paymentTransactions) {
-//                session.delete(paymentTransaction);
-//            }
-
         });
     }
 
     @Override
-    public void findByPhoneNumber(int phoneNumber) {
-        dataBaseConnection.myQueryConsumer(session -> {
-            Customer customer = session.find(Customer.class, phoneNumber);
-            System.out.println(customer);
-        });
+    public Customer findByPhoneNumber(int phoneNumber) {
+        return dataBaseConnection.myQueryFunction(session -> session.find(Customer.class, phoneNumber));
     }
 
     @Deprecated
