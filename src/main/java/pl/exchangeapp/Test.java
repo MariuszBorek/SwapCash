@@ -1,8 +1,12 @@
 
 package pl.exchangeapp;
 
+import pl.exchangeapp.api.CurrencyApi;
+import pl.exchangeapp.conection.ClientHttp;
 import pl.exchangeapp.conection.DatabaseConnection;
+import pl.exchangeapp.converters.JsonDataConverter;
 import pl.exchangeapp.dao.*;
+import pl.exchangeapp.domainnbp.CurrencyInfo;
 import pl.exchangeapp.entities.Account;
 import pl.exchangeapp.entities.Address;
 import pl.exchangeapp.entities.Customer;
@@ -16,13 +20,13 @@ public class Test {
 
     public static void main(String[] args) throws IOException {
         // create connection with Database
-        DatabaseConnection databaseConnection = new DatabaseConnection();
+//        DatabaseConnection databaseConnection = new DatabaseConnection();
 
         // create instances of repositories
-        AddressDAO addressDAO = new AddressRepository(databaseConnection);
-        CustomerDAO customerDAO = new CustomerRepository(databaseConnection);
-        AccountDAO accountDAO = new AccountRepository(databaseConnection);
-        PaymentTransactionDAO paymentTransactionDAO = new PaymentTransactionRepository(databaseConnection);
+//        AddressDAO addressDAO = new AddressRepository(databaseConnection);
+//        CustomerDAO customerDAO = new CustomerRepository(databaseConnection);
+//        AccountDAO accountDAO = new AccountRepository(databaseConnection);
+//        PaymentTransactionDAO paymentTransactionDAO = new PaymentTransactionRepository(databaseConnection);
 
 
         // create objects
@@ -33,33 +37,33 @@ public class Test {
 
         // address objects
 
-        Address address1 = new Address()
-                .withStreet("Błotna")
-                .withNumber("5b")
-                .withCity("Warszawa")
-                .withPostalCode("33-456")
-                .build();
-
-        Address address2 = new Address()
-                .withStreet("Wojska Polskiego")
-                .withNumber("43")
-                .withCity("Kraków")
-                .withPostalCode("36-547")
-                .build();
+//        Address address1 = new Address()
+//                .withStreet("Błotna")
+//                .withNumber("5b")
+//                .withCity("Warszawa")
+//                .withPostalCode("33-456")
+//                .build();
+//
+//        Address address2 = new Address()
+//                .withStreet("Wojska Polskiego")
+//                .withNumber("43")
+//                .withCity("Kraków")
+//                .withPostalCode("36-547")
+//                .build();
 
         // account objects
 
-        Account account1 = new Account()
-                .withAccountNumber(10001L)
-                .withTypeOfAccount(Currency.PLN)
-                .withBalance(new BigDecimal(10_000))
-                .build();
-
-        Account account2 = new Account()
-                .withAccountNumber(10002L)
-                .withTypeOfAccount(Currency.EUR)
-                .withBalance(new BigDecimal(20_000))
-                .build();
+//        Account account1 = new Account()
+//                .withAccountNumber(10001L)
+//                .withTypeOfAccount(Currency.PLN)
+//                .withBalance(new BigDecimal(10_000))
+//                .build();
+//
+//        Account account2 = new Account()
+//                .withAccountNumber(10002L)
+//                .withTypeOfAccount(Currency.EUR)
+//                .withBalance(new BigDecimal(20_000))
+//                .build();
 
         // transaction objects
 
@@ -79,40 +83,40 @@ public class Test {
 
         // customer objects
 
-        Customer customer1 = new Customer()
-                .withPhoneNumber(567_345_234)
-                .withFirstName("Wacław")
-                .withLastName("Kowalski")
-                .withPassword("12345")
-                .withAccounts(List.of(account1))
-                .withAddress(address1)
-                .build();
-
-        Customer customer2 = new Customer()
-                .withPhoneNumber(658_345_964)
-                .withFirstName("Justyna")
-                .withLastName("Nowak")
-                .withPassword("qwerty")
-                .withAccounts(List.of(account2))
-                .withAddress(address2)
-                .build();
+//        Customer customer1 = new Customer()
+//                .withPhoneNumber(567_345_234)
+//                .withFirstName("Wacław")
+//                .withLastName("Kowalski")
+//                .withPassword("12345")
+//                .withAccounts(List.of(account1))
+//                .withAddress(address1)
+//                .build();
+//
+//        Customer customer2 = new Customer()
+//                .withPhoneNumber(658_345_964)
+//                .withFirstName("Justyna")
+//                .withLastName("Nowak")
+//                .withPassword("qwerty")
+//                .withAccounts(List.of(account2))
+//                .withAddress(address2)
+//                .build();
 
         // insert objects to database
 
-        addressDAO.createAddress(address1);
-        addressDAO.createAddress(address2);
-
-        accountDAO.createAccount(account1);
-        accountDAO.createAccount(account2);
+//        addressDAO.createAddress(address1);
+//        addressDAO.createAddress(address2);
+//
+//        accountDAO.createAccount(account1);
+//        accountDAO.createAccount(account2);
 
 //        paymentTransactionDAO.createCustomerTransaction(transaction1);
 //        paymentTransactionDAO.createCustomerTransaction(transaction2);
 
-        customerDAO.createCustomer(customer1);
-        customerDAO.createCustomer(customer2);
+//        customerDAO.createCustomer(customer1);
+//        customerDAO.createCustomer(customer2);
 
         // find customer by phone number
-        customerDAO.findByPhoneNumber(658_345_964);
+//        customerDAO.findByPhoneNumber(658_345_964);
 
         // update objects
 //        customer2.withFirstName("Justyna CHANGED")
@@ -136,10 +140,10 @@ public class Test {
 //        addressDAO.deleteAddress(address2);
 
         // transfer money
-        accountDAO.transferMoney(new BigDecimal(333), 658_345_964, 567_345_234);
-        System.out.println("-------------------");
-
-        accountDAO.transferMoney(new BigDecimal(1_000), 567_345_234, 658_345_964);
+//        accountDAO.transferMoney(new BigDecimal(333), 658_345_964, 567_345_234);
+//        System.out.println("-------------------");
+//
+//        accountDAO.transferMoney(new BigDecimal(1_000), 567_345_234, 658_345_964);
 
 
 
@@ -153,15 +157,15 @@ public class Test {
 
         // CURRENCYAPI
 
-//        CurrencyApi api = new CurrencyApi(Client.getInstance(), new JsonDataConverter());
+        CurrencyApi api = new CurrencyApi(ClientHttp.getInstance(), new JsonDataConverter());
 
-//        // get single currency
+        // get single currency
 //        System.out.println("buy: " + api.getActualExchangeRateForChosenCurrency(Currency.USD).getBuy());
 //        System.out.println("sell: " + api.getActualExchangeRateForChosenCurrency(Currency.USD).getSell());
 //
 //        System.out.println();
-//
-//        // get list of all rates
+
+        // get list of all rates
 //        List<CurrencyInfo> currencyRates = api.getListOfActualExchangeRates();
 //        for(CurrencyInfo currency: currencyRates) {
 //            System.out.printf("%s: Buy: %s, Sell: %s\n",currency.getName(), currency.getBuy(), currency.getSell());
@@ -170,8 +174,8 @@ public class Test {
 //        // sell money User Sell)
 //        System.out.println(api.buyMoneyFromUser(Currency.USD, new BigDecimal(100)));
 //        System.out.println(api.sellMoneyToUser(Currency.USD, new BigDecimal(100)));
-
-        //
+//
+//
 //        System.out.println("Podaj walute transakcji opcje");
 //        for (Currency currency : Currency.values()) {
 //            System.out.print(currency.name() + "; ");

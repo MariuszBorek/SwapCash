@@ -63,4 +63,13 @@ public class AccountRepository implements AccountDAO {
             session.persist(incomingPayment);
         });
     }
+
+    @Override
+    public BigDecimal getBalance(Customer customer) {
+        return dataBaseConnection.myQueryFunction(session ->
+                session.find(Customer.class, customer.getPhoneNumber())
+                        .getAccounts()
+                        .get(0)
+                        .getBalance());
+    }
 }

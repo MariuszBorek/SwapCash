@@ -25,10 +25,16 @@ public class CurrencyApi {
         return dataConverter.convertData(dataString);
     }
 
+    public CurrencyInfo getListOfActualExchangeRates(Currency currency) throws IOException {
+        String dataString = clientHttp.executeRequest(currency, dataConverter.getType());
+        return dataConverter.convertData(dataString);
+    }
+
+    // TODO doesn't work after midnight :/
     public List<CurrencyInfo> getListOfActualExchangeRates() throws IOException {
         List<CurrencyInfo> listOfActualExchangeRates = new ArrayList<>();
         List<Currency> list = List.of(Currency.values());
-        for (int i = 0; i < Currency.values().length; i++) {
+        for (int i = 1; i < Currency.values().length; i++) {
             String dataString = clientHttp.executeRequest(list.get(i), dataConverter.getType());
             listOfActualExchangeRates.add(dataConverter.convertData(dataString));
         }

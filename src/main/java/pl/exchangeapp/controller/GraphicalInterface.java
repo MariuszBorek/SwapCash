@@ -1,8 +1,19 @@
-package pl.exchangeapp.controler;
+package pl.exchangeapp.controller;
 
 import pl.exchangeapp.enums.Currency;
 
 public class GraphicalInterface {
+    private static GraphicalInterface graphicalInterface = null;
+
+    private GraphicalInterface() {}
+
+    public static GraphicalInterface getInstance() {
+        if (graphicalInterface == null)
+            graphicalInterface = new GraphicalInterface();
+
+        return graphicalInterface;
+    }
+
     private char sign = '-';
     private int numberOfSign = 100;
 

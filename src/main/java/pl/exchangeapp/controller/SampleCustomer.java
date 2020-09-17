@@ -1,4 +1,4 @@
-package pl.exchangeapp.controler;
+package pl.exchangeapp.controller;
 
 import pl.exchangeapp.dao.*;
 import pl.exchangeapp.entities.Account;
@@ -16,12 +16,12 @@ public class SampleCustomer {
     private AddressDAO addressDAO;
     private CustomerDAO customerDAO;
     private AccountDAO accountDAO;
-    private PaymentTransactionDAO paymentTransactionDAO;
+    private pl.exchangeapp.dao.PaymentTransactionDAO paymentTransactionDAO;
 
     public SampleCustomer(AddressDAO addressDAO,
                           CustomerDAO customerDAO,
                           AccountDAO accountDAO,
-                          PaymentTransactionDAO paymentTransactionDAO) {
+                          pl.exchangeapp.dao.PaymentTransactionDAO paymentTransactionDAO) {
         this.addressDAO = addressDAO;
         this.customerDAO = customerDAO;
         this.accountDAO = accountDAO;
@@ -70,10 +70,10 @@ public class SampleCustomer {
                 .build();
 
         Customer customer1 = new Customer()
-                .withPhoneNumber(567_345_234)
+                .withPhoneNumber(555)
                 .withFirstName("Wacław")
                 .withLastName("Kowalski")
-                .withPassword("12345")
+                .withPassword("5")
                 .withAccounts(List.of(account1))
                 .withAddress(address1)
                 .build();

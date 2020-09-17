@@ -1,4 +1,4 @@
-package pl.exchangeapp.controler;
+package pl.exchangeapp.controller;
 
 import java.util.Scanner;
 

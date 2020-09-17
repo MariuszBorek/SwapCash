@@ -1,13 +1,19 @@
 package pl.exchangeapp;
 
+import com.mysql.cj.xdevapi.Client;
+import pl.exchangeapp.api.CurrencyApi;
+import pl.exchangeapp.conection.ClientHttp;
 import pl.exchangeapp.conection.DatabaseConnection;
-import pl.exchangeapp.controler.SampleCustomer;
-import pl.exchangeapp.controler.GraphicalInterface;
-import pl.exchangeapp.controler.ControllerMain;
+import pl.exchangeapp.controller.SampleCustomer;
+import pl.exchangeapp.controller.GraphicalInterface;
+import pl.exchangeapp.controller.ControllerMain;
+import pl.exchangeapp.converters.JsonDataConverter;
 import pl.exchangeapp.dao.*;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // create connection with Database
         DatabaseConnection databaseConnection = new DatabaseConnection();
 
@@ -16,6 +22,7 @@ public class Main {
         CustomerDAO customerDAO = new CustomerRepository(databaseConnection);
         AccountDAO accountDAO = new AccountRepository(databaseConnection);
         PaymentTransactionDAO paymentTransactionDAO = new PaymentTransactionRepository(databaseConnection);
+        CurrencyApi currencyApi = new CurrencyApi(ClientHttp.getInstance(), new JsonDataConverter());
 
         // sample customers
         SampleCustomer sampleCustomer = new SampleCustomer(addressDAO,
@@ -26,13 +33,12 @@ public class Main {
         sampleCustomer.createSampleCustomers();
 
         // Controller
-        GraphicalInterface graphicalInterface = new GraphicalInterface();
+        GraphicalInterface graphicalInterface = GraphicalInterface.getInstance();
         ControllerMain controllerMain = new ControllerMain(addressDAO,
                 customerDAO,
                 accountDAO,
-                paymentTransactionDAO);
-
-        graphicalInterface.drawLine();
+                paymentTransactionDAO,
+                currencyApi);
         controllerMain.displayMainMenu();
 
     }

@@ -1,4 +1,4 @@
-package pl.exchangeapp.controler;
+package pl.exchangeapp.controller;
 
 import pl.exchangeapp.dao.AccountDAO;
 import pl.exchangeapp.dao.AddressDAO;
