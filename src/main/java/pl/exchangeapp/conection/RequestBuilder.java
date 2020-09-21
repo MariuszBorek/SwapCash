@@ -14,6 +14,7 @@ public class RequestBuilder {
     private static final String DATE_FORMAT_QUERY_PARAM = "format";
 
     private Currency currency = Currency.EUR;
+//    private LocalDate date = LocalDate.of(2020, 9, 21);
     private LocalDate date = LocalDate.now();
     private DataFormat dataFormat = DataFormat.JSON;
 

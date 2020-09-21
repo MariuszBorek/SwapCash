@@ -43,8 +43,6 @@ public class ControllerCreateAccount {
             String lastName = "Lennon";
 
             // account
-            System.out.println("wprowadź numer konta, rozwiazanie na czas testow");
-            int accountNumber = in.nextInt();
             Currency typeOfAccount = Currency.PLN;
             BigDecimal balance = new BigDecimal(1000);
 
@@ -62,7 +60,6 @@ public class ControllerCreateAccount {
                     .build();
 
             Account account = new Account()
-                    .withAccountNumber(accountNumber)
                     .withTypeOfAccount(typeOfAccount)
                     .withBalance(balance)
                     .build();

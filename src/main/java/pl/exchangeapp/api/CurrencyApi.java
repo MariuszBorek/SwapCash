@@ -41,6 +41,7 @@ public class CurrencyApi {
         return listOfActualExchangeRates;
     }
 
+    // TODO change name
     public BigDecimal buyMoneyFromUser(Currency currency, BigDecimal valueOfMoneyToExchange) throws IOException {
         String dataString = clientHttp.executeRequest(currency, dataConverter.getType());
         CurrencyInfo currencyInfo = dataConverter.convertData(dataString);

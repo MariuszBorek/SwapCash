@@ -20,10 +20,10 @@ public class PaymentTransactionRepository implements pl.exchangeapp.dao.PaymentT
 
     @Override
     public List<PaymentTransaction> getTransactionsForCustomer(Customer customer) {
-        return dataBaseConnection.myQueryFunction(session -> session.createQuery("from PaymentTransaction where account_accountNumber = :account_accountNumber",
+        return dataBaseConnection.myQueryFunction(session ->
+                session.createQuery("from PaymentTransaction where account_accountNumber = :account_accountNumber",
                 PaymentTransaction.class)
-                    .setParameter("account_accountNumber", customer.getAccounts()
-                            .get(0))
+                .setParameter("account_accountNumber", customer.getAccounts().get(0))
                 .getResultList());
     }
 }

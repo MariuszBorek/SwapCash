@@ -44,15 +44,23 @@ public class SampleCustomer {
                 .build();
 
         Account account1 = new Account()
-                .withAccountNumber(10001L)
                 .withTypeOfAccount(Currency.PLN)
                 .withBalance(new BigDecimal(10_000))
                 .build();
 
         Account account2 = new Account()
-                .withAccountNumber(10002L)
                 .withTypeOfAccount(Currency.EUR)
                 .withBalance(new BigDecimal(20_000))
+                .build();
+
+        Account account3 = new Account()
+                .withTypeOfAccount(Currency.USD)
+                .withBalance(new BigDecimal(15_000))
+                .build();
+
+        Account account4 = new Account()
+                .withTypeOfAccount(Currency.JPY)
+                .withBalance(new BigDecimal(15_000))
                 .build();
 
                 PaymentTransaction transaction1 = new PaymentTransaction()
@@ -74,7 +82,7 @@ public class SampleCustomer {
                 .withFirstName("Wacław")
                 .withLastName("Kowalski")
                 .withPassword("5")
-                .withAccounts(List.of(account1))
+                .withAccounts(List.of(account1, account3, account4))
                 .withAddress(address1)
                 .build();
 
@@ -92,6 +100,8 @@ public class SampleCustomer {
 
         accountDAO.createAccount(account1);
         accountDAO.createAccount(account2);
+        accountDAO.createAccount(account3);
+        accountDAO.createAccount(account4);
 
         paymentTransactionDAO.createCustomerTransaction(transaction1);
         paymentTransactionDAO.createCustomerTransaction(transaction2);

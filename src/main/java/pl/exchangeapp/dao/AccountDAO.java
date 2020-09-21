@@ -9,4 +9,6 @@ public interface AccountDAO {
     void createAccount(Account account);
     void transferMoney(BigDecimal amount, int payerPhoneNumber, int recipientPhoneNumber);
     BigDecimal getBalance(Customer customer);
+    void addMoneyToAccountBalance(Account account, BigDecimal amount);
+    void subtractMoneyToAccountBalance(Account account, BigDecimal amount);
 }

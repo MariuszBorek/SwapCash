@@ -72,4 +72,26 @@ public class AccountRepository implements AccountDAO {
                         .get(0)
                         .getBalance());
     }
+
+    @Override
+    public void addMoneyToAccountBalance(Account account, BigDecimal amount) {
+        dataBaseConnection.myQueryConsumer(session -> {
+            Account foundAccount = session.find(Account.class, account.getAccountNumber());
+            BigDecimal actualBalance = foundAccount.getBalance();
+            foundAccount.setBalance(actualBalance.add(amount));
+            session.update(foundAccount);
+        });
+    }
+
+    @Override
+    public void subtractMoneyToAccountBalance(Account account, BigDecimal amount) {
+        dataBaseConnection.myQueryConsumer(session -> {
+            Account foundAccount = session.find(Account.class, account.getAccountNumber());
+            BigDecimal actualBalance = foundAccount.getBalance();
+            foundAccount.setBalance(actualBalance.subtract(amount));
+            session.update(foundAccount);
+        });
+    }
+
+
 }

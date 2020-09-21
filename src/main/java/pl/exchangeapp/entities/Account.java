@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity
 public class Account {
     @Id
-    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long accountNumber;
     private Currency typeOfAccount;
     private BigDecimal balance;
