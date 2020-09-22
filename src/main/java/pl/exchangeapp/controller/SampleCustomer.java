@@ -78,10 +78,10 @@ public class SampleCustomer {
                 .build();
 
         Customer customer1 = new Customer()
-                .withPhoneNumber(555)
+                .withPhoneNumber(555_777_555)
                 .withFirstName("Wacław")
                 .withLastName("Kowalski")
-                .withPassword("5")
+                .withPassword("zaqwsx")
                 .withAccounts(List.of(account1, account3, account4))
                 .withAddress(address1)
                 .build();

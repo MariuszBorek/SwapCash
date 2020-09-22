@@ -77,7 +77,7 @@ public class ControllerCreateAccount {
             accountDAO.createAccount(account);
             customerDAO.createCustomer(customer);
 
-            System.out.println("insert data automatically");
+            System.out.println("insert customer data automatically");
             return;
         }
     }
