@@ -74,22 +74,21 @@ public class AccountRepository implements AccountDAO {
     }
 
     @Override
-    public void addMoneyToAccountBalance(Account account, BigDecimal amount) {
+    public void exchangeMoney(Account accountFromGetMoney, Account accountToPutMoney, BigDecimal amount, BigDecimal exchangedFromPLNToDiffCurrency) {
         dataBaseConnection.myQueryConsumer(session -> {
-            Account foundAccount = session.find(Account.class, account.getAccountNumber());
-            BigDecimal actualBalance = foundAccount.getBalance();
-            foundAccount.setBalance(actualBalance.add(amount));
-            session.update(foundAccount);
-        });
-    }
 
-    @Override
-    public void subtractMoneyToAccountBalance(Account account, BigDecimal amount) {
-        dataBaseConnection.myQueryConsumer(session -> {
-            Account foundAccount = session.find(Account.class, account.getAccountNumber());
-            BigDecimal actualBalance = foundAccount.getBalance();
-            foundAccount.setBalance(actualBalance.subtract(amount));
-            session.update(foundAccount);
+            Account foundAccountFromGetMoney = session.find(Account.class, accountFromGetMoney.getAccountNumber());
+            BigDecimal actualBalance = foundAccountFromGetMoney.getBalance();
+            foundAccountFromGetMoney.setBalance(actualBalance.subtract(amount));
+            session.update(foundAccountFromGetMoney);
+
+            Account foundAccountToPutMoney = session.find(Account.class, accountToPutMoney.getAccountNumber());
+            BigDecimal actualBalance2 = foundAccountToPutMoney.getBalance();
+            foundAccountToPutMoney.setBalance(actualBalance2.add(exchangedFromPLNToDiffCurrency));
+
+
+            session.update(foundAccountFromGetMoney);
+            session.update(foundAccountToPutMoney);
         });
     }
 

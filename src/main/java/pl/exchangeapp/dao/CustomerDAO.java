@@ -14,4 +14,8 @@ public interface CustomerDAO {
     Customer findByPhoneNumber(int phoneNumber);
     void addAccount(int phoneNumber, Account account);
     List<Account>  getCustomerAccounts(int phoneNumber);
+    void changeName(Customer customer, String name);
+    void changePassword(Customer customer, String password);
+    String getName(Customer customer);
+
 }

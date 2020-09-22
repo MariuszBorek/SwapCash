@@ -81,6 +81,30 @@ public class CustomerRepository implements CustomerDAO {
                         .getAccounts());
     }
 
+    @Override
+    public void changeName(Customer customer, String name) {
+        dataBaseConnection.myQueryConsumer(session -> {
+            Customer foundCustomer = session.find(Customer.class, customer.getPhoneNumber());
+            foundCustomer.setFirstName(name);
+            session.update(foundCustomer);
+        });
+    }
+
+    @Override
+    public void changePassword(Customer customer, String password) {
+        dataBaseConnection.myQueryConsumer(session -> {
+            Customer foundCustomer = session.find(Customer.class, customer.getPhoneNumber());
+            foundCustomer.setPassword(password);
+            session.update(foundCustomer);
+        });
+    }
+
+    @Override
+    public String getName(Customer customer) {
+        return dataBaseConnection.myQueryFunction(session -> session.find(Customer.class, customer.getPhoneNumber()).getFirstName());
+    }
+
+
     @Deprecated
     public void findByName(String firstName) {
         dataBaseConnection.myQueryConsumer(session -> {
@@ -90,6 +114,8 @@ public class CustomerRepository implements CustomerDAO {
             System.out.println("findByName-->>" + foundCustomer);
         });
     }
+
+
 
 
 }

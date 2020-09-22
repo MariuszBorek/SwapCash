@@ -1,0 +1,1 @@
+[PaymentTransaction{id=1, amount=543.00, transactionType=INCOMING, date=2020-09-22}, PaymentTransaction{id=3, amount=234.00, transactionType=OUTGOING, date=2020-09-22}]

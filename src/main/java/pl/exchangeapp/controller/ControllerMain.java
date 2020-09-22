@@ -6,7 +6,7 @@ import pl.exchangeapp.dao.*;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class ControllerMain implements Controller {
+public class ControllerMain {
     private ScannerProvider scannerProvider = ScannerProvider.getInstance();
     private Scanner in = scannerProvider.getScanner();
 

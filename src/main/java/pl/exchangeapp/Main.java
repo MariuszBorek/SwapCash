@@ -1,6 +1,5 @@
 package pl.exchangeapp;
 
-import com.mysql.cj.xdevapi.Client;
 import pl.exchangeapp.api.CurrencyApi;
 import pl.exchangeapp.conection.ClientHttp;
 import pl.exchangeapp.conection.DatabaseConnection;

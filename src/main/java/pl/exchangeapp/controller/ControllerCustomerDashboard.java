@@ -11,6 +11,7 @@ import pl.exchangeapp.entities.Account;
 import pl.exchangeapp.entities.Customer;
 import pl.exchangeapp.entities.PaymentTransaction;
 import pl.exchangeapp.enums.Currency;
+import pl.exchangeapp.outputfiles.FileOperations;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -51,15 +52,7 @@ public class ControllerCustomerDashboard {
                     displayActualExchangeRates(currencyApi);
                     break;
                 case "t":
-                    System.out.println("input amount to transfer");
-                    BigDecimal amount = in.nextBigDecimal();
-
-                    System.out.println("input recipient phone number");
-                    int recipientPhoneNumber = in.nextInt();
-                    accountDAO.transferMoney(amount,
-                            customer.getPhoneNumber(),
-                            recipientPhoneNumber);
-                    System.out.printf("your balance: %f\n", accountDAO.getBalance(customer));
+                    transferMoney(customer);
                     break;
                 case "e":
                     exchangeMoney(customer, currencyApi);
@@ -68,8 +61,10 @@ public class ControllerCustomerDashboard {
                     displayPaymentTransactions(customer);
                     break;
                 case "u":
+                    changeCustomerData(customer);
                     break;
                 case "f":
+                    saveTransactionHistoryIntoFile(customer);
                     break;
                 case "sa":
                     showAccounts(customer);
@@ -96,6 +91,18 @@ public class ControllerCustomerDashboard {
         }
     }
 
+    private void transferMoney(Customer customer) {
+        System.out.println("input amount to transfer");
+        BigDecimal amount = in.nextBigDecimal();
+
+        System.out.println("input recipient phone number");
+        int recipientPhoneNumber = in.nextInt();
+        accountDAO.transferMoney(amount,
+                customer.getPhoneNumber(),
+                recipientPhoneNumber);
+        System.out.printf("your balance: %f\n", accountDAO.getBalance(customer));
+    }
+
     private void displayPaymentTransactions(Customer customer) {
         List<PaymentTransaction> transactionsForCustomer = paymentTransactionDAO.getTransactionsForCustomer(customer);
         if(transactionsForCustomer == null) {
@@ -107,7 +114,7 @@ public class ControllerCustomerDashboard {
                     transactionsForCustomer.get(0).getAccount().getAccountNumber());
             graphicalInterface.drawLine(66);
             for (PaymentTransaction pt : transactionsForCustomer) {
-                System.out.printf("|account nr: %d |2 amount: %.2f | date: %s\n",
+                System.out.printf("|account nr: %d | amount: %.2f | date: %s\n",
                         pt.getAccount().getAccountNumber(),
                         pt.getTransactionAmount(),
                         pt.getDate());
@@ -128,7 +135,7 @@ public class ControllerCustomerDashboard {
                         "[sa-show accounts][a-add foreign currency account][x-logout]\n" +
                         "[d-delete profile]\n" +
                         "LOGIN AS: %s %s | BALANCE: %.2f | ACCOUNT TYPE: %s\n",
-                customer.getFirstName(),
+                customerDAO.getName(customer),
                 customer.getLastName(),
                 accountDAO.getBalance(customer),
                 customer.getAccounts().get(0).getTypeOfAccount().name());
@@ -145,9 +152,9 @@ public class ControllerCustomerDashboard {
                     currencyInfo.getBuy(),
                     currencyInfo.getSell());
             graphicalInterface.drawLine(66);
-            System.out.println("[x-go back to dashboard]");
-            String goBackToDashboard = in.next();
         }
+        System.out.println("[x-go back to dashboard]");
+        String goBackToDashboard = in.next();
 
     }
 
@@ -224,13 +231,43 @@ public class ControllerCustomerDashboard {
         BigDecimal exchangedFromPLNToDiffCurrency = exchangedToPLN.divide(new BigDecimal(currencyFromAccountPuttingMoney.getSell().toString()), RoundingMode.DOWN);
         System.out.println(exchangedFromPLNToDiffCurrency);
 
-        // TODO improve, now in two different sessions!
-        accountDAO.subtractMoneyToAccountBalance(accountFromGetMoney, amount);
-        accountDAO.addMoneyToAccountBalance(accountToPutMoney, exchangedFromPLNToDiffCurrency);
+        accountDAO.exchangeMoney(accountFromGetMoney, accountToPutMoney, amount, exchangedFromPLNToDiffCurrency);
 
         graphicalInterface.drawLine(66);
         System.out.println("[x-go back to dashboard]");
         String goBackToDashboard = in.next();
 
     }
+
+    private void changeCustomerData(Customer customer) {
+        System.out.println("[n-change name][p-change password]");
+        String choiceUpdateData = in.next();
+        if(choiceUpdateData.equals("n")) {
+            System.out.println("enter your name");
+            String name = in.next();
+            changeCustomerName(customer, name);
+        } else if(choiceUpdateData.equals("p")) {
+            System.out.println("enter your new password");
+            String password = in.next();
+            changeCustomerPassword(customer, password);
+        } else {
+            System.out.println("illegal sign, try again");
+            changeCustomerData(customer);
+        }
+    }
+
+    private void changeCustomerName(Customer customer, String name) {
+        customerDAO.changeName(customer, name);
+    }
+
+    private void changeCustomerPassword(Customer customer, String password) {
+        customerDAO.changePassword(customer, password);
+    }
+
+    private void saveTransactionHistoryIntoFile(Customer customer) {
+        String transactions = paymentTransactionDAO.getTransactionsForCustomer(customer).toString();
+        FileOperations fileOperations = new FileOperations();
+        fileOperations.saveTransactionHistoryToFile(transactions);
+    }
+
 }
