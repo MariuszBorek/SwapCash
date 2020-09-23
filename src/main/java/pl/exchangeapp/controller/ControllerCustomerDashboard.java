@@ -93,11 +93,12 @@ public class ControllerCustomerDashboard {
 
     private void transferMoney(Customer customer) {
         System.out.println("input amount to transfer");
-        BigDecimal amount = in.nextBigDecimal();
+        BigDecimal checkedAmount = in.nextBigDecimal();
 
         System.out.println("input recipient phone number");
         int recipientPhoneNumber = in.nextInt();
-        accountDAO.transferMoney(amount,
+
+        accountDAO.transferMoney(checkedAmount,
                 customer.getPhoneNumber(),
                 recipientPhoneNumber);
         System.out.printf("your balance: %f\n", accountDAO.getBalance(customer));

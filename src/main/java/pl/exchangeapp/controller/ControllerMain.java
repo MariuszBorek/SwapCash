@@ -1,5 +1,6 @@
 package pl.exchangeapp.controller;
 
+import jdk.swing.interop.SwingInterOpUtils;
 import pl.exchangeapp.api.CurrencyApi;
 import pl.exchangeapp.dao.*;
 
@@ -9,6 +10,7 @@ import java.util.Scanner;
 public class ControllerMain {
     private ScannerProvider scannerProvider = ScannerProvider.getInstance();
     private Scanner in = scannerProvider.getScanner();
+    private GraphicalInterface gf = GraphicalInterface.getInstance();
 
     private CurrencyApi currencyApi;
     private AddressDAO addressDAO;
@@ -52,14 +54,19 @@ public class ControllerMain {
             choice = in.next();
             switch (choice) {
                 case "l":
-                    System.out.println("login");
+                    gf.drawLine(66);
+                    System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<__LOGIN__>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                    gf.drawLine(66);
                     controllerLogin.loginMenu(currencyApi);
                     break;
                 case "c":
-                    System.out.println("create account");
+                    gf.drawLine(66);
+                    System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<__CREATE__ACCOUNT__>>>>>>>>>>>>>>>>>>>>>>>");
+                    gf.drawLine(66);
                     controllerCreateAccount.createAccountMenu();
                     break;
                 case "x": {
+                    System.out.println("see you");
                     isTrue = false;
                     break;
                 }

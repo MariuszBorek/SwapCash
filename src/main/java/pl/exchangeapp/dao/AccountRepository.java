@@ -30,7 +30,7 @@ public class AccountRepository implements AccountDAO {
 
             Customer foundRecipient = session.createQuery("from Customer where phoneNumber = :phoneNumber", Customer.class)
                     .setParameter("phoneNumber", recipientPhoneNumber)
-                    .getSingleResult();
+                    .getResultList().get(0);
 
             System.out.println("Payer -->" + foundPayer.getFirstName());
             System.out.println("Recipient -->" + foundRecipient.getFirstName());

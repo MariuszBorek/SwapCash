@@ -49,7 +49,7 @@ public class SampleCustomer {
                 .build();
 
         Account account2 = new Account()
-                .withTypeOfAccount(Currency.EUR)
+                .withTypeOfAccount(Currency.PLN)
                 .withBalance(new BigDecimal(20_000))
                 .build();
 

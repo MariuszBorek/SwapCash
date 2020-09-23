@@ -15,13 +15,11 @@ public class CustomerRepository implements CustomerDAO {
         this.dataBaseConnection = dataBaseConnection;
     }
 
-    @Deprecated
     @Override
     public void createCustomer(Customer customer) {
         dataBaseConnection.myQueryConsumer(session -> session.persist(customer));
     }
 
-    @Deprecated
     @Override
     public void updateCustomer(Customer customer, int phoneNumber) {
         dataBaseConnection.myQueryConsumer(session -> {

@@ -30,27 +30,40 @@ public class ControllerCreateAccount {
     }
 
     public void createAccountMenu() {
-        while (true) {
-            System.out.println("enter your data");
-//            String text = null;
-//            text = in.next();
-
-            // customer
-            System.out.println("wprowadź numer telefonu");
-            int phoneNumber = in.nextInt();
-            String password = "qwerty";
-            String firstName = "John";
-            String lastName = "Lennon";
+        boolean isTrue = true;
+        while (isTrue) {
+            System.out.println("enter your phone number");
+            String phoneNumber = in.nextLine().replaceAll(" ", "");
+            if(phoneNumber == null) {
+                System.out.println("repeat your phone number");
+                phoneNumber = in.nextLine().replaceAll(" ", "");
+            }
+            if(phoneNumber.matches("\\D*")) {
+                System.out.println("illegal sign, please try again");
+                isTrue = false;
+                createAccountMenu();
+                return;
+            }
+            System.out.println("password");
+            String password = in.nextLine();
+            System.out.println("first name");
+            String firstName = in.nextLine();
+            System.out.println("last name");
+            String lastName = in.nextLine();
 
             // account
             Currency typeOfAccount = Currency.PLN;
-            BigDecimal balance = new BigDecimal(1000);
+            BigDecimal balance = new BigDecimal("1000");
 
             // address
-            String street = "Z. Lenartowicza";
-            String number = "3b";
-            String postalCode = "33-345";
-            String city = "Warszawa";
+            System.out.println("street name");
+            String street = in.nextLine();
+            System.out.println("house no.");
+            String number = in.nextLine();
+            System.out.println("postal code");
+            String postalCode = in.nextLine();
+            System.out.println("city");
+            String city = in.nextLine();
 
             Address address = new Address()
                     .withStreet(street)
@@ -65,7 +78,7 @@ public class ControllerCreateAccount {
                     .build();
 
             Customer customer = new Customer()
-                    .withPhoneNumber(phoneNumber)
+                    .withPhoneNumber(Integer.parseInt(phoneNumber))
                     .withFirstName(firstName)
                     .withLastName(lastName)
                     .withPassword(password)
@@ -77,7 +90,9 @@ public class ControllerCreateAccount {
             accountDAO.createAccount(account);
             customerDAO.createCustomer(customer);
 
-            System.out.println("insert customer data automatically");
+            System.out.println("success! you got 1000 PLN on start.");
+            System.out.println("[press any letter and enter to go]");
+            String goBackToDashboard = in.next();
             return;
         }
     }

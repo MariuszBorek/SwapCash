@@ -40,14 +40,20 @@ public class ControllerLogin {
 
     public void loginMenu(CurrencyApi currencyApi) throws IOException {
         System.out.println("enter your phone Number:");
-        int phoneNumber = in.nextInt();
+        String phoneNumber = in.nextLine().replaceAll(" ", "");
+        phoneNumber = in.nextLine().replaceAll(" ", "");
+        System.out.println(phoneNumber);
         System.out.println("enter password:");
-        String password = in.next();
-        Customer customer = customerDAO.findByPhoneNumber(phoneNumber);
-
-        if (customer.getPassword().equals(password)) {
+        String password = in.nextLine();
+        Customer customer = customerDAO.findByPhoneNumber(Integer.parseInt(phoneNumber));
+        if (customer == null) {
+            System.out.println("there is no user with this data");
+        } else if (customer.getPassword().equals(password)) {
             System.out.printf("Welcome %s, your password is correct\n", customer.getFirstName());
             controllerCustomerDashboard.getDashboard(customer, currencyApi);
+        } else {
+            System.out.println("something goes wrong, please try again");
+            loginMenu(currencyApi);
         }
     }
 }
