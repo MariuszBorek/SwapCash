@@ -80,7 +80,10 @@ public class ControllerMain {
 
     private void toolbar() {
         System.out.println(
-                "[l-login][c-create account][x-exit]"
+                "You can log in as sample user(below) or create your own account\n" +
+                "| phone: 658 345 964 password: qwerty |\n" +
+                        "| phone: 555 777 555 password: zaqwsx |\n" +
+                        "[l-login][c-create account][x-exit]"
         );
     }
 }

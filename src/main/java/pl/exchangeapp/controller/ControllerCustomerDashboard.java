@@ -96,7 +96,7 @@ public class ControllerCustomerDashboard {
         System.out.println("input amount to transfer");
         BigDecimal checkedAmount = in.nextBigDecimal();
 
-        System.out.println("input recipient phone number");
+        System.out.println("input recipient phone number(you can use one of sample users)");
         int recipientPhoneNumber = in.nextInt();
 
         accountDAO.transferMoney(checkedAmount,
@@ -107,8 +107,9 @@ public class ControllerCustomerDashboard {
 
     private void displayPaymentTransactions(Customer customer) {
         List<PaymentTransaction> transactionsForCustomer = paymentTransactionDAO.getTransactionsForCustomer(customer);
-        if(transactionsForCustomer == null) {
+        if(transactionsForCustomer == null || transactionsForCustomer.isEmpty()) {
             System.out.println("You do not have any transaction yet");
+            return;
         } else {
             graphicalInterface.drawLine(66);
             System.out.printf("history transactions, type: %s, account nr: %d\n",
