@@ -44,6 +44,7 @@ public class ControllerCustomerDashboard {
     public void getDashboard(Customer customer, CurrencyApi currencyApi) throws IOException {
         String choice = null;
         System.out.println("you are in dashboard");
+        isTrue = true;
         while (isTrue) {
             displayDashBoardMenu(customer);
             choice = in.next();
@@ -219,10 +220,13 @@ public class ControllerCustomerDashboard {
             }
         }
         if(accountFromGetMoney == null || accountToPutMoney == null) {
-            System.out.println("you have you do not have account with this number");
+            System.out.println("you do not have account with this number");
             return;
         }
-
+        if(accountFromGetMoney.getTypeOfAccount().equals(Currency.PLN) || accountToPutMoney.getTypeOfAccount().equals(Currency.PLN)) {
+            System.out.println("temporary you can only exchange foreign currency. You can create another foreign account and exchange between them");
+            return;
+        }
         CurrencyInfo currencyFromAccountGettingMoney = currencyApi.getActualExchangeRateForChosenCurrency(accountFromGetMoney.getTypeOfAccount());
         CurrencyInfo currencyFromAccountPuttingMoney = currencyApi.getActualExchangeRateForChosenCurrency(accountToPutMoney.getTypeOfAccount());
 

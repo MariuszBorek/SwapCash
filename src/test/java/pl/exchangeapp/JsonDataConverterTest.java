@@ -5,6 +5,7 @@ import org.junit.Test;
 import pl.exchangeapp.converters.JsonDataConverter;
 import pl.exchangeapp.domainnbp.CurrencyInfo;
 
+import javax.persistence.Transient;
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
@@ -23,6 +24,7 @@ public class JsonDataConverterTest {
         currencyInfo = jsonDataConverter.convertData(jsonString);
     }
 
+
     @Test
     public void should_return_value_of_bid_field_when_pass_jason_string() {
         Double result = currencyInfo.getBuy();
@@ -31,6 +33,7 @@ public class JsonDataConverterTest {
         assertNotNull(result);
         assertEquals(expect, result);
     }
+
 
     @Test
     public void should_return_value_of_ask_field_when_pass_jason_string() {

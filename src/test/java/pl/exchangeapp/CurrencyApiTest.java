@@ -35,7 +35,6 @@ public class CurrencyApiTest {
 
         Mockito.when(clientHttp.executeRequest(Currency.USD, DataFormat.JSON)).thenReturn(jsonString);
 
-
         CurrencyInfo currencyInfo = sut.getActualExchangeRateForChosenCurrency(Currency.USD);
 
         Assert.assertEquals(3.7064, currencyInfo.getSell(), DELTA);

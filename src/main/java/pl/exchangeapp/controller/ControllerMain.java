@@ -73,7 +73,6 @@ public class ControllerMain {
 
                 default:
                     System.out.println("incorrect input, try again");
-
                     break;
             }
         }

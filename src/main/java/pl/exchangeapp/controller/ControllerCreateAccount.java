@@ -33,11 +33,7 @@ public class ControllerCreateAccount {
         boolean isTrue = true;
         while (isTrue) {
             System.out.println("enter your phone number");
-            String phoneNumber = in.nextLine().replaceAll(" ", "");
-            if(phoneNumber == null) {
-                System.out.println("repeat your phone number");
-                phoneNumber = in.nextLine().replaceAll(" ", "");
-            }
+            String phoneNumber = in.next().replaceAll(" ", "");
             if(phoneNumber.matches("\\D*")) {
                 System.out.println("illegal sign, please try again");
                 isTrue = false;
@@ -45,11 +41,11 @@ public class ControllerCreateAccount {
                 return;
             }
             System.out.println("password");
-            String password = in.nextLine();
+            String password = in.next();
             System.out.println("first name");
-            String firstName = in.nextLine();
+            String firstName = in.next();
             System.out.println("last name");
-            String lastName = in.nextLine();
+            String lastName = in.next();
 
             // account
             Currency typeOfAccount = Currency.PLN;
@@ -57,13 +53,13 @@ public class ControllerCreateAccount {
 
             // address
             System.out.println("street name");
-            String street = in.nextLine();
+            String street = in.next();
             System.out.println("house no.");
-            String number = in.nextLine();
+            String number = in.next();
             System.out.println("postal code");
-            String postalCode = in.nextLine();
+            String postalCode = in.next();
             System.out.println("city");
-            String city = in.nextLine();
+            String city = in.next();
 
             Address address = new Address()
                     .withStreet(street)

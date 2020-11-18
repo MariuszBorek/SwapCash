@@ -40,11 +40,10 @@ public class ControllerLogin {
 
     public void loginMenu(CurrencyApi currencyApi) throws IOException {
         System.out.println("enter your phone Number:");
-        String phoneNumber = in.nextLine().replaceAll(" ", "");
-        phoneNumber = in.nextLine().replaceAll(" ", "");
+        String phoneNumber = in.next().replaceAll(" ", "");
         System.out.println(phoneNumber);
         System.out.println("enter password:");
-        String password = in.nextLine();
+        String password = in.next();
         Customer customer = customerDAO.findByPhoneNumber(Integer.parseInt(phoneNumber));
         if (customer == null) {
             System.out.println("there is no user with this data");
