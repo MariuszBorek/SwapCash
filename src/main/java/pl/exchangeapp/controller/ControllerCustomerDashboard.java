@@ -96,7 +96,7 @@ public class ControllerCustomerDashboard {
         System.out.println("input amount to transfer");
         BigDecimal checkedAmount = in.nextBigDecimal();
 
-        System.out.println("input recipient phone number(you can use one of sample users)");
+        System.out.println("input recipient phone number(you can transfer money to sample account. Phone: 333 444 555)");
         int recipientPhoneNumber = in.nextInt();
 
         accountDAO.transferMoney(checkedAmount,

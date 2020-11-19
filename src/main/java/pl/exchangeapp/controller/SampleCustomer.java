@@ -87,7 +87,7 @@ public class SampleCustomer {
                 .build();
 
         Customer customer2 = new Customer()
-                .withPhoneNumber(658_345_964)
+                .withPhoneNumber(333_444_555)
                 .withFirstName("Justyna")
                 .withLastName("Nowak")
                 .withPassword("qwerty")
